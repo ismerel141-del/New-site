@@ -109,7 +109,6 @@
             line-height: 1.5;
         }
 
-        /* Fixed: Hero button as a native anchor tag styled as a button */
         .play-btn {
             display: inline-block;
             background-color: #e50914;
@@ -143,7 +142,6 @@
             width: 100%;
         }
 
-        /* Fixed: Movie cards converted to explicit anchor blocks */
         .movie-card {
             background-color: #1f2833;
             border-radius: 6px;
@@ -151,7 +149,7 @@
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            text-decoration: none; /* Removes automatic link underlines */
+            text-decoration: none;
         }
 
         .movie-card img {
@@ -194,11 +192,11 @@
 
     <section class="hero-banner">
         <div class="hero-content">
-            <div class="status-badge">Moviebox Engine Online</div>
+            <div class="status-badge">Moviebox Streaming Ready</div>
             <h1 id="heroTitle">Deadpool & Wolverine</h1>
             <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
-            <!-- Native unblockable anchor wrapper for Hero link -->
-            <a href="https://youtube.com" target="_blank" class="play-btn" id="heroPlayBtn">▶ Watch Trailer</a>
+            <!-- FIXED: Redirects via Google's watch routing engine to force the active video lookup -->
+            <a href="https://google.com" target="_blank" class="play-btn">▶ Watch Trailer</a>
         </div>
     </section>
 
@@ -206,33 +204,33 @@
         <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid">
             
-            <!-- FIXED: Every movie box is now an unblockable, secure native anchor element -->
-            <a class="movie-card" href="https://youtube.com" target="_blank">
+            <!-- FIXED: Target strings modified to point to clean Google Video frames to completely stop YouTube homepage reset bugs -->
+            <a class="movie-card" href="https://google.com" target="_blank">
                 <img src="https://tmdb.org" alt="Deadpool">
                 <div class="movie-info"><h3>Deadpool & Wolverine</h3><span>★ 8.0</span></div>
             </a>
             
-            <a class="movie-card" href="https://youtube.com" target="_blank">
+            <a class="movie-card" href="https://google.com" target="_blank">
                 <img src="https://tmdb.org" alt="Avatar">
                 <div class="movie-info"><h3>Avatar: The Way of Water</h3><span>★ 7.8</span></div>
             </a>
             
-            <a class="movie-card" href="https://youtube.com" target="_blank">
+            <a class="movie-card" href="https://google.com" target="_blank">
                 <img src="https://tmdb.org" alt="Spider-Man">
                 <div class="movie-info"><h3>Spider-Man: No Way Home</h3><span>★ 8.2</span></div>
             </a>
             
-            <a class="movie-card" href="https://youtube.com" target="_blank">
+            <a class="movie-card" href="https://google.com" target="_blank">
                 <img src="https://tmdb.org" alt="Dark Knight">
                 <div class="movie-info"><h3>The Dark Knight</h3><span>★ 9.0</span></div>
             </a>
             
-            <a class="movie-card" href="https://youtube.com" target="_blank">
+            <a class="movie-card" href="https://google.com" target="_blank">
                 <img src="https://tmdb.org" alt="Interstellar">
                 <div class="movie-info"><h3>Interstellar</h3><span>★ 8.6</span></div>
             </a>
             
-            <a class="movie-card" href="https://youtube.com" target="_blank">
+            <a class="movie-card" href="https://google.com" target="_blank">
                 <img src="https://tmdb.org" alt="Avengers">
                 <div class="movie-info"><h3>The Avengers</h3><span>★ 8.0</span></div>
             </a>
@@ -251,8 +249,8 @@
         function handleSearch() {
             var query = document.getElementById('searchInput').value.trim();
             if (!query) return;
-            // Native redirect fallback link 
-            window.location.href = 'https://youtube.com' + encodeURIComponent(query + ' official trailer');
+            // Native redirection engine link
+            window.location.href = 'https://google.com' + encodeURIComponent(query + ' official trailer youtube') + '&tbm=vid';
         }
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moviebox App</title>
+    <title>Moviebox App Pro</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #0b0c10; color: #ffffff; font-family: system-ui, sans-serif; padding-top: 70px; }
@@ -13,8 +13,7 @@
         .search-bar { display: flex; width: 60%; max-width: 400px; }
         .search-bar input { flex: 1; padding: 10px; background-color: #1f2833; border: 1px solid #45a29e; border-radius: 4px 0 0 4px; color: #fff; outline: none; }
         .search-bar button { padding: 10px 15px; background-color: #e50914; color: #fff; border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; }
-        .hero-banner { height: 45vh; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 30px 5%; position: relative; }
-        .hero-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, #0b0c10 15%, transparent 85%); }
+        .hero-banner { height: 45vh; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 30px 5%; position: relative; background-image: linear-gradient(to top, #0b0c10 15%, transparent 85%), url('https://unsplash.com'); }
         .hero-content { position: relative; z-index: 2; max-width: 500px; }
         .hero-content h1 { font-size: 1.8rem; margin-bottom: 8px; }
         .hero-content p { font-size: 0.9rem; color: #c5a059; margin-bottom: 15px; line-height: 1.4; }
@@ -22,10 +21,11 @@
         .container { padding: 25px 5%; }
         .container h2 { font-size: 1.3rem; margin-bottom: 20px; }
         .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
-        .movie-card { background-color: #1f2833; border-radius: 6px; overflow: hidden; cursor: pointer; }
+        .movie-card { background-color: #1f2833; border-radius: 6px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .movie-card img { width: 100%; height: 190px; object-fit: cover; }
         .movie-info { padding: 8px; }
         .movie-info h3 { font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .status-badge { background-color: #1f2833; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; color: #45a29e; font-weight: bold; display: inline-block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -33,28 +33,41 @@
     <header class="navbar">
         <div class="logo">MOVIE<span>BOX</span></div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search for movies...">
+            <input type="text" id="searchInput" placeholder="Search movies/genres...">
             <button id="searchBtn">Search</button>
         </div>
     </header>
 
     <section class="hero-banner" id="heroBanner">
         <div class="hero-content">
-            <h1 id="heroTitle">Moviebox Loading...</h1>
-            <p id="heroOverview">Connecting directly to secure streaming database matrix...</p>
+            <div id="appStatus" class="status-badge">App Engine Active</div>
+            <h1 id="heroTitle">Deadpool & Wolverine</h1>
+            <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
             <button class="play-btn" id="heroPlayBtn">▶ Watch Trailer</button>
         </div>
     </section>
 
     <main class="container">
-        <h2 id="sectionTitle">Trending Now</h2>
+        <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid"></div>
     </main>
 
     <script>
         const API_KEY = 'a83a16584e228d5eaaa7f34ada3c3566'; 
-const BASE_URL = 'https://tmdb.org'; // FIXED: Swapped to unblocked mirror server
-const IMG_URL = 'https://tmdb.org';
+        const BASE_URL = 'https://tmdb.org';
+        const IMG_URL = 'https://tmdb.org';
+
+        // COMPREHENSIVE BACKUP DATABASE FOR OFFLINE ANDROID LAUNCH
+        const localBackupDatabase = [
+            { title: "Deadpool & Wolverine", rating: "8.0", genre: "Action", poster: "https://unsplash.com", overview: "Wade Wilson recruits Wolverine to help rescue his home universe from a timeline threat." },
+            { title: "Avatar: The Way of Water", rating: "7.8", genre: "Sci-Fi", poster: "https://unsplash.com", overview: "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora." },
+            { title: "Spider-Man: No Way Home", rating: "8.2", genre: "Action", poster: "https://unsplash.com", overview: "With Spider-Man's identity now revealed, Peter asks Doctor Strange for assistance." },
+            { title: "The Dark Knight", rating: "9.0", genre: "Drama", poster: "https://unsplash.com", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
+            { title: "Interstellar", rating: "8.6", genre: "Sci-Fi", poster: "https://unsplash.com", overview: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival." },
+            { title: "The Avengers", rating: "8.0", genre: "Action", poster: "https://unsplash.com", overview: "Earth's mightiest heroes must come together and learn to fight as a team to stop Loki." },
+            { title: "Inception", rating: "8.8", genre: "Sci-Fi", poster: "https://unsplash.com", overview: "A thief who steals corporate secrets through the use of dream-sharing technology." },
+            { title: "John Wick: Chapter 4", rating: "7.9", genre: "Action", poster: "https://unsplash.com", overview: "John Wick uncovers a path to defeating The High Table." }
+        ];
 
         window.onload = function() {
             getTrendingMovies();
@@ -70,80 +83,76 @@ const IMG_URL = 'https://tmdb.org';
                     if (e.key === 'Enter') handleSearch();
                 });
             }
+            document.getElementById('heroPlayBtn').onclick = function() {
+                playMovieTrailer(document.getElementById('heroTitle').innerText);
+            };
         }
 
         function getTrendingMovies() {
-    var statusText = document.getElementById('heroOverview');
-    
-    fetch(BASE_URL + '/trending/movie/week?api_key=' + API_KEY)
-        .then(function(res) { 
-            if (!res.ok) {
-                if (statusText) statusText.innerText = "Network Error Code: " + res.status;
-            }
-            return res.json(); 
-        })
-        .then(function(data) {
-            if (data && data.results && data.results.length > 0) {
-                setupHeroBanner(data.results[0]); 
-                displayMovies(data.results);
-            } else {
-                if (statusText) statusText.innerText = "Server replied, but gave 0 movies.";
-            }
-        })
-        .catch(function(err) { 
-            console.error(err); 
-            if (statusText) {
-                statusText.style.color = "#ff4d4d";
-                statusText.innerHTML = "<strong>📡 CONNECTION BLOCKED:</strong> Your browser or network provider is blocking the connection to the movie database servers. Try switching to a different network/Wi-Fi or use a VPN.";
-            }
-        });
-}
-
-
-        function handleSearch() {
-            var query = document.getElementById('searchInput').value.trim();
-            if (!query) return;
-            var titleNode = document.getElementById('sectionTitle');
-            if (titleNode) titleNode.innerText = 'Search Results for "' + query + '"';
-            fetch(BASE_URL + '/search/movie?api_key=' + API_KEY + '&query=' + encodeURIComponent(query))
+            var statusBadge = document.getElementById('appStatus');
+            
+            fetch(BASE_URL + '/trending/movie/week?api_key=' + API_KEY)
                 .then(function(res) { return res.json(); })
                 .then(function(data) {
-                    if (data && data.results) { displayMovies(data.results); }
+                    if (data && data.results && data.results.length > 0) {
+                        if (statusBadge) statusBadge.innerText = "Live Cloud Feed Active";
+                        setupLiveHero(data.results[0]); 
+                        displayLiveMovies(data.results);
+                    } else {
+                        loadBackupSystem();
+                    }
                 })
-                .catch(function(err) { console.error(err); });
+                .catch(function() {
+                    // IF NETWORK IS BLOCKED, AUTOMATICALLY DEPLOY OFFLINE MODE
+                    loadBackupSystem();
+                });
         }
 
-        function setupHeroBanner(movie) {
+        function loadBackupSystem() {
+            var statusBadge = document.getElementById('appStatus');
+            if (statusBadge) {
+                statusBadge.innerText = "Offline Safety Sandbox Mode Active";
+                statusBadge.style.backgroundColor = "#e50914";
+                statusBadge.style.color = "#ffffff";
+            }
+            displayBackupMovies(localBackupDatabase);
+        }
+
+        function handleSearch() {
+            var query = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!query) return;
+
+            var titleNode = document.getElementById('sectionTitle');
+            if (titleNode) titleNode.innerText = 'Search Results for "' + query + '"';
+
+            var statusBadge = document.getElementById('appStatus');
+            if (statusBadge && statusBadge.innerText.includes("Offline")) {
+                // Offline Local Engine Search Logic
+                var filtered = localBackupDatabase.filter(function(m) {
+                    return m.title.toLowerCase().includes(query) || m.genre.toLowerCase().includes(query);
+                });
+                displayBackupMovies(filtered);
+            } else {
+                // Live Cloud Server Search Logic
+                fetch(BASE_URL + '/search/movie?api_key=' + API_KEY + '&query=' + encodeURIComponent(query))
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data && data.results) { displayLiveMovies(data.results); }
+                    })
+                    .catch(function() { loadBackupSystem(); });
+            }
+        }
+
+        function setupLiveHero(movie) {
             var banner = document.getElementById('heroBanner');
             if (!banner || !movie) return;
-            banner.style.backgroundImage = "url('https://tmdb.org" + movie.backdrop_path + "')";
+            banner.style.backgroundImage = "linear-gradient(to top, #0b0c10 15%, transparent 85%), url('https://tmdb.org" + movie.backdrop_path + "')";
             document.getElementById('heroTitle').innerText = movie.title;
             document.getElementById('heroOverview').innerText = movie.overview ? movie.overview.substring(0, 120) + '...' : '';
-            document.getElementById('heroPlayBtn').onclick = function() { playMovieTrailer(movie.title); };
         }
 
-        function displayMovies(movies) {
+        function displayLiveMovies(movies) {
             var grid = document.getElementById('movieGrid');
             if (!grid) return;
             grid.innerHTML = '';
-            if (movies.length === 0) {
-                grid.innerHTML = '<p style="padding: 20px; color: #888;">No results found.</p>';
-                return;
-            }
             movies.forEach(function(movie) {
-                if (!movie.poster_path) return; 
-                var card = document.createElement('div');
-                card.classList.add('movie-card');
-                card.onclick = function() { playMovieTrailer(movie.title); };
-                card.innerHTML = '<img src="' + IMG_URL + movie.poster_path + '" alt="' + movie.title + '"><div class="movie-info"><h3>' + movie.title + '</h3><span style="color: #ffc107; font-size: 0.8rem;">★ ' + (movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A') + '</span></div>';
-                grid.appendChild(card);
-            });
-        }
-
-        function playMovieTrailer(movieTitle) {
-            var cleanTitle = encodeURIComponent(movieTitle + ' official trailer');
-            window.open('https://youtube.com' + cleanTitle, '_blank');
-        }
-    </script>
-</body>
-</html>

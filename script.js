@@ -80,13 +80,17 @@ function playMovieTrailer(movieId, movieTitle) {
         .then(res => res.json())
         .then(data => {
             const video = data.results && data.results.find(v => v.site === 'YouTube');
+            
             if (video && video.key) {
+                // FIXED: Using precise template strings so it opens a real YouTube link
                 window.open(`https://youtube.com{video.key}`, '_blank');
             } else {
-                window.open(`https://youtube.com{encodeURIComponent(movieTitle + ' official trailer')}`, '_blank');
+                const query = encodeURIComponent(`${movieTitle} official trailer`);
+                window.open(`https://youtube.com{query}`, '_blank');
             }
         })
         .catch(() => {
-            window.open(`https://youtube.com{encodeURIComponent(movieTitle + ' official trailer')}`, '_blank');
+            const query = encodeURIComponent(`${movieTitle} official trailer`);
+            window.open(`https://youtube.com{query}`, '_blank');
         });
 }

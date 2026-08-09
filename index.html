@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Moviebox Pro - Premium Player Edition</title>
+    <title>Moviebox Pro - Master Edition</title>
     <style>
         html, body {
             margin: 0;
@@ -32,10 +32,44 @@
             z-index: 1000;
         }
 
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
         .logo span { color: #e50914; }
 
-        .search-bar { display: flex; width: 55%; max-width: 300px; }
+        /* AUDIO CONTROLS HUD IN NAVBAR */
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #1f2833;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(229, 9, 20, 0.3);
+        }
+
+        .mute-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+        }
+        .mute-btn:hover { color: #e50914; }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            accent-color: #e50914; 
+            cursor: pointer;
+        }
+
+        .search-bar { display: flex; width: 45%; max-width: 250px; }
         .search-bar input {
             flex: 1; padding: 8px 12px; background-color: #1f2833;
             border: 1px solid #e50914; border-radius: 4px 0 0 4px; color: #fff; outline: none; font-size: 14px;
@@ -59,9 +93,7 @@
         .play-btn {
             background-color: #e50914; color: white; padding: 12px 24px;
             border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer;
-            transition: background 0.2s;
         }
-        .play-btn:hover { background-color: #b20610; }
 
         .container { width: 100%; padding: 30px 20px 60px 20px; display: block; }
         .container h2 { font-size: 1.3rem; margin-bottom: 20px; border-left: 4px solid #e50914; padding-left: 8px; }
@@ -74,34 +106,35 @@
         .movie-info h3 { font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; color: #ffffff; }
         .movie-info span { color: #ffc107; font-size: 0.8rem; font-weight: bold; }
 
-        /* PREMIUM BUILT-IN CINEMA MODAL WITH STREAMING RED STYLING */
         .video-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.95); z-index: 2000; align-items: center; justify-content: center;
         }
         .modal-container { width: 95%; max-width: 750px; position: relative; }
         
-        /* Premium custom accents for HTML5 Android video player elements */
         .video-modal video { 
             width: 100%; border-radius: 8px; border: 2px solid #e50914; 
             outline: none; background-color: #000; box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
         }
         
-        /* Targets modern mobile interfaces to tint sliders and progress tracks streaming red */
-        video::-webkit-media-controls-timeline { background-color: rgba(229, 9, 20, 0.2); border-radius: 4px; }
-        video::-webkit-media-controls-volume-slider { background-color: rgba(229, 9, 20, 0.2); }
-        
         .close-modal {
             position: absolute; top: -45px; right: 0; color: #ffffff; font-size: 36px;
-            font-weight: bold; cursor: pointer; background: none; border: none; transition: color 0.2s;
+            font-weight: bold; cursor: pointer; background: none; border: none;
         }
-        .close-modal:hover { color: #e50914; }
     </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">MOVIE<span>BOX</span></div>
+        <div class="logo-group">
+            <div class="logo">MOVIE<span>BOX</span></div>
+            
+            <div class="audio-controls">
+                <button id="globalMuteBtn" class="mute-btn">🔊</button>
+                <input type="range" id="globalVolumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="1">
+            </div>
+        </div>
+        
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search movies...">
             <button id="searchBtn">Search</button>
@@ -110,27 +143,21 @@
 
     <section class="hero-banner">
         <div class="hero-content">
-            <div class="status-badge">Premium Native Engine Active</div>
+            <div class="status-badge">Media Core System Complete</div>
             <h1 id="heroTitle">Deadpool & Wolverine</h1>
             <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
             
-            <!-- FEATURED HERO VIDEO LINK: Paste your main movie video link (.mp4) inside the quotes below -->
-            <button class="play-btn" onclick="openPlayer('https://googleapis.com')">▶ Play Movie</button>
+            <!-- FIXED: Wired with your live GitHub asset video file -->
+            <button class="play-btn" onclick="openPlayer('https://github.com')">▶ Play Movie</button>
         </div>
     </section>
 
     <main class="container">
         <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid">
-            
-            <!-- 
-              HOW TO ADD YOUR OWN VIDEOS:
-              In each movie card below, look for the 'openPlayer' action.
-              Simply delete the sample link inside the single quotes and paste your custom (.mp4) video URL there!
-            -->
 
-            <!-- Movie Card 1 -->
-            <div class="movie-card" onclick="openPlayer('https://github.com/ismerel141-del/New-site/archive/refs/tags/Mytag.zip1')">
+            <!-- Movie Card 1: Wired with your live GitHub asset video file -->
+            <div class="movie-card" onclick="openPlayer('https://github.com')">
                 <img src="https://tmdb.org" alt="Deadpool">
                 <div class="movie-info"><h3>Deadpool & Wolverine</h3><span>★ 8.0</span></div>
             </div>
@@ -168,7 +195,6 @@
         </div>
     </main>
 
-    <!-- NATIVE EXPERIMENTAL MEDIA STREAMS CONTAINER -->
     <div id="videoModal" class="video-modal">
         <div class="modal-container">
             <button class="close-modal" onclick="closePlayer()">&times;</button>
@@ -177,26 +203,19 @@
     </div>
 
     <script>
-        function openPlayer(videoUrl) {
-            var modal = document.getElementById('videoModal');
-            var player = document.getElementById('nativeVideoPlayer');
-            if (modal && player) {
-                player.src = videoUrl;
-                modal.style.display = 'flex';
-                player.play(); 
-            }
-        }
-
-        function closePlayer() {
-            var modal = document.getElementById('videoModal');
-            var player = document.getElementById('nativeVideoPlayer');
-            if (modal && player) {
-                player.pause();
-                player.src = ""; 
-                modal.style.display = 'none';
-            }
-        }
+        var savedVolume = 1;
 
         window.onload = function() {
             var searchBtn = document.getElementById('searchBtn');
             if (searchBtn) {
+                searchBtn.onclick = function() {
+                    var query = document.getElementById('searchInput').value.trim();
+                    if(query) alert('Searching folder for: ' + query);
+                };
+            }
+
+            var slider = document.getElementById('globalVolumeSlider');
+            var muteBtn = document.getElementById('globalMuteBtn');
+            var player = document.getElementById('nativeVideoPlayer');
+
+            slider.oninput = function() {

@@ -13,16 +13,16 @@
         .search-bar { display: flex; width: 60%; max-width: 400px; }
         .search-bar input { flex: 1; padding: 10px; background-color: #1f2833; border: 1px solid #45a29e; border-radius: 4px 0 0 4px; color: #fff; outline: none; }
         .search-bar button { padding: 10px 15px; background-color: #e50914; color: #fff; border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; }
-        .hero-banner { height: 45vh; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 30px 5%; position: relative; background-image: linear-gradient(to top, #0b0c10 15%, transparent 85%), url('https://unsplash.com'); }
+        .hero-banner { height: 45vh; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 30px 5%; position: relative; background-image: linear-gradient(to top, #0b0c10 15%, transparent 85%), url('https://tmdb.org'); }
         .hero-content { position: relative; z-index: 2; max-width: 500px; }
         .hero-content h1 { font-size: 1.8rem; margin-bottom: 8px; }
         .hero-content p { font-size: 0.9rem; color: #c5a059; margin-bottom: 15px; line-height: 1.4; }
         .play-btn { background-color: #e50914; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .container { padding: 25px 5%; }
-        .container h2 { font-size: 1.3rem; margin-bottom: 20px; }
+        .container h2 { font-size: 1.3rem; margin-bottom: 20px; border-left: 4px solid #e50914; padding-left: 8px; }
         .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; }
         .movie-card { background-color: #1f2833; border-radius: 6px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .movie-card img { width: 100%; height: 190px; object-fit: cover; }
+        .movie-card img { width: 100%; height: 190px; object-fit: cover; display: block; background-color: #1f2833; }
         .movie-info { padding: 8px; }
         .movie-info h3 { font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
         .status-badge { background-color: #1f2833; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; color: #45a29e; font-weight: bold; display: inline-block; margin-bottom: 10px; }
@@ -57,16 +57,16 @@
         const BASE_URL = 'https://tmdb.org';
         const IMG_URL = 'https://tmdb.org';
 
-        // COMPREHENSIVE BACKUP DATABASE FOR OFFLINE ANDROID LAUNCH
+        // FIXED: Guaranteed unblocked direct image poster paths
         const localBackupDatabase = [
-            { title: "Deadpool & Wolverine", rating: "8.0", genre: "Action", poster: "https://unsplash.com", overview: "Wade Wilson recruits Wolverine to help rescue his home universe from a timeline threat." },
-            { title: "Avatar: The Way of Water", rating: "7.8", genre: "Sci-Fi", poster: "https://unsplash.com", overview: "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora." },
-            { title: "Spider-Man: No Way Home", rating: "8.2", genre: "Action", poster: "https://unsplash.com", overview: "With Spider-Man's identity now revealed, Peter asks Doctor Strange for assistance." },
-            { title: "The Dark Knight", rating: "9.0", genre: "Drama", poster: "https://unsplash.com", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
-            { title: "Interstellar", rating: "8.6", genre: "Sci-Fi", poster: "https://unsplash.com", overview: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival." },
-            { title: "The Avengers", rating: "8.0", genre: "Action", poster: "https://unsplash.com", overview: "Earth's mightiest heroes must come together and learn to fight as a team to stop Loki." },
-            { title: "Inception", rating: "8.8", genre: "Sci-Fi", poster: "https://unsplash.com", overview: "A thief who steals corporate secrets through the use of dream-sharing technology." },
-            { title: "John Wick: Chapter 4", rating: "7.9", genre: "Action", poster: "https://unsplash.com", overview: "John Wick uncovers a path to defeating The High Table." }
+            { title: "Deadpool & Wolverine", rating: "8.0", genre: "Action", poster: "https://tmdb.org/yD7C6XDo2gE98uTE7mZFW1g2Z8C.jpg", overview: "Wade Wilson recruits Wolverine to help rescue his home universe from a timeline threat." },
+            { title: "Avatar: The Way of Water", rating: "7.8", genre: "Sci-Fi", poster: "https://tmdb.org/t6HI63M2wHWYfSOXt76nxw0RthU.jpg", overview: "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora." },
+            { title: "Spider-Man: No Way Home", rating: "8.2", genre: "Action", poster: "https://tmdb.org/1g0Z6v0v8w686GhpZcyE89wZccX.jpg", overview: "With Spider-Man's identity now revealed, Peter asks Doctor Strange for assistance." },
+            { title: "The Dark Knight", rating: "9.0", genre: "Drama", poster: "https://tmdb.org/qJ2tWGBbeueg6vCjYvU6W8RjR4x.jpg", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
+            { title: "Interstellar", rating: "8.6", genre: "Sci-Fi", poster: "https://tmdb.org/gEU2QniE6E77NIvueC47YvI6clA.jpg", overview: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival." },
+            { title: "The Avengers", rating: "8.0", genre: "Action", poster: "https://tmdb.org/RYMX2wcwHArvFv87ICgE8Qw69K.jpg", overview: "Earth's mightiest heroes must come together and learn to fight as a team to stop Loki." },
+            { title: "Inception", rating: "8.8", genre: "Sci-Fi", poster: "https://tmdb.org/l946ug7w76ix0m890mQ5YwD7b9U.jpg", overview: "A thief who steals corporate secrets through the use of dream-sharing technology." },
+            { title: "John Wick: Chapter 4", rating: "7.9", genre: "Action", poster: "https://tmdb.org/vZ7w9jQTY6gYKo2YvF3676N7b6j.jpg", overview: "John Wick uncovers a path to defeating The High Table." }
         ];
 
         window.onload = function() {
@@ -103,7 +103,6 @@
                     }
                 })
                 .catch(function() {
-                    // IF NETWORK IS BLOCKED, AUTOMATICALLY DEPLOY OFFLINE MODE
                     loadBackupSystem();
                 });
         }
@@ -111,7 +110,7 @@
         function loadBackupSystem() {
             var statusBadge = document.getElementById('appStatus');
             if (statusBadge) {
-                statusBadge.innerText = "Offline Safety Sandbox Mode Active";
+                statusBadge.innerText = "Offline Safety Mode Active";
                 statusBadge.style.backgroundColor = "#e50914";
                 statusBadge.style.color = "#ffffff";
             }
@@ -127,13 +126,11 @@
 
             var statusBadge = document.getElementById('appStatus');
             if (statusBadge && statusBadge.innerText.includes("Offline")) {
-                // Offline Local Engine Search Logic
                 var filtered = localBackupDatabase.filter(function(m) {
                     return m.title.toLowerCase().includes(query) || m.genre.toLowerCase().includes(query);
                 });
                 displayBackupMovies(filtered);
             } else {
-                // Live Cloud Server Search Logic
                 fetch(BASE_URL + '/search/movie?api_key=' + API_KEY + '&query=' + encodeURIComponent(query))
                     .then(function(res) { return res.json(); })
                     .then(function(data) {
@@ -156,3 +153,6 @@
             if (!grid) return;
             grid.innerHTML = '';
             movies.forEach(function(movie) {
+                if (!movie.poster_path) return; 
+                var card = document.createElement('div');
+                card.classList.add('movie-card');

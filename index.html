@@ -143,10 +143,11 @@
     <section class="hero-banner">
         <div class="hero-content">
             <div class="status-badge">Media Core System Complete</div>
-            <h1 id="heroTitle">Deadpool & Wolverine</h1>
-            <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
-            <!-- FIXED: Main Banner button updated with your direct Filebin link -->
-            <button class="play-btn" onclick="openPlayer('https://filebin.net')">▶ Play Movie</button>
+            <h1 id="heroTitle">My Uploaded Video</h1>
+            <p id="heroOverview">Streaming directly from unblocked open-source cloud storage containers seamlessly on mobile Android platforms.</p>
+            
+            <!-- FIXED: Wired with your specific Filebin download URL link destination -->
+            <button class="play-btn" onclick="openPlayer('https://filebin.net/bvj2p2v3wh0exsd5/VID-20260419-WA0007.mp4')">▶ Play Movie</button>
         </div>
     </section>
 
@@ -154,37 +155,32 @@
         <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid">
 
-            <!-- Movie Card 1: Updated with your direct Filebin link -->
-            <div class="movie-card" onclick="openPlayer('https://filebin.net')">
-                <img src="https://tmdb.org" alt="Deadpool">
-                <div class="movie-info"><h3>Deadpool & Wolverine</h3><span>★ 8.0</span></div>
+            <!-- FIXED: Wired with your specific Filebin download URL link destination -->
+            <div class="movie-card" onclick="openPlayer('https://filebin.net/bvj2p2v3wh0exsd5/VID-20260419-WA0007.mp4')">
+                <img src="https://tmdb.org" alt="Movie 1">
+                <div class="movie-info"><h3>My Uploaded Video</h3><span>★ 8.5</span></div>
             </div>
             
-            <!-- Movie Card 2 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Avatar">
                 <div class="movie-info"><h3>Avatar: The Way of Water</h3><span>★ 7.8</span></div>
             </div>
             
-            <!-- Movie Card 3 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Spider-Man">
                 <div class="movie-info"><h3>Spider-Man: No Way Home</h3><span>★ 8.2</span></div>
             </div>
             
-            <!-- Movie Card 4 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Dark Knight">
                 <div class="movie-info"><h3>The Dark Knight</h3><span>★ 9.0</span></div>
             </div>
             
-            <!-- Movie Card 5 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Interstellar">
                 <div class="movie-info"><h3>Interstellar</h3><span>★ 8.6</span></div>
             </div>
             
-            <!-- Movie Card 6 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Avengers">
                 <div class="movie-info"><h3>The Avengers</h3><span>★ 8.0</span></div>
@@ -208,7 +204,7 @@
             if (searchBtn) {
                 searchBtn.onclick = function() {
                     var query = document.getElementById('searchInput').value.trim();
-                    if(query) alert('Searching folder for: ' + query);
+                    if(query) alert('Searching sandbox folder for: ' + query);
                 };
             }
 
@@ -219,3 +215,10 @@
             slider.oninput = function() {
                 player.volume = slider.value;
                 if (player.volume == 0) {
+                    muteBtn.innerText = "🔇";
+                } else {
+                    muteBtn.innerText = "🔊";
+                }
+            };
+
+            muteBtn.onclick = function() {

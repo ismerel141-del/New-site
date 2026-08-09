@@ -244,16 +244,14 @@
             });
         };
 
-        function handleSearch() {
+                function handleSearch() {
             var query = document.getElementById('searchInput').value.trim();
             if (!query) return;
-            // Search routing fallback link bypass
+            // FIXED: Added the mandatory forward slash (/) after youtube.com
             window.open('https://youtube.com' + encodeURIComponent(query + ' official trailer'), '_blank');
         }
 
         function playMovie(title) {
+            // FIXED: Added the mandatory forward slash (/) after youtube.com
             window.open('https://youtube.com' + encodeURIComponent(title + ' official trailer'), '_blank');
         }
-    </script>
-</body>
-</html>

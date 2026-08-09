@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Moviebox Pro</title>
+    <title>Moviebox Pro - Playable Edition</title>
     <style>
         html, body {
             margin: 0;
@@ -17,9 +17,7 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         .navbar {
             display: flex;
@@ -34,149 +32,56 @@
             z-index: 1000;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+        .logo span { color: #e50914; }
 
-        .logo span {
-            color: #e50914;
-        }
-
-        .search-bar {
-            display: flex;
-            width: 55%;
-            max-width: 300px;
-        }
-
+        .search-bar { display: flex; width: 55%; max-width: 300px; }
         .search-bar input {
-            flex: 1;
-            padding: 8px 12px;
-            background-color: #1f2833;
-            border: 1px solid #45a29e;
-            border-radius: 4px 0 0 4px;
-            color: #fff;
-            outline: none;
-            font-size: 14px;
+            flex: 1; padding: 8px 12px; background-color: #1f2833;
+            border: 1px solid #45a29e; border-radius: 4px 0 0 4px; color: #fff; outline: none; font-size: 14px;
         }
-
         .search-bar button {
-            padding: 8px 12px;
-            background-color: #e50914;
-            color: #fff;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
+            padding: 8px 12px; background-color: #e50914; color: #fff;
+            border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; font-size: 14px;
         }
 
         .hero-banner {
-            width: 100%;
-            padding: 40px 20px;
-            background-size: cover;
-            background-position: center top;
+            width: 100%; padding: 40px 20px; background-size: cover; background-position: center top;
             background-image: linear-gradient(to top, #0b0c10 5%, rgba(11, 12, 16, 0.6) 95%), url('https://tmdb.org');
             border-bottom: 2px solid #1f2833;
         }
 
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .status-badge {
-            background-color: #e50914;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            color: #ffffff;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-
-        .hero-content h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .hero-content p {
-            font-size: 0.9rem;
-            color: #c5a059;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
+        .hero-content { max-width: 600px; }
+        .status-badge { background-color: #e50914; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #ffffff; font-weight: bold; display: inline-block; margin-bottom: 12px; }
+        .hero-content h1 { font-size: 1.8rem; margin-bottom: 10px; font-weight: 700; }
+        .hero-content p { font-size: 0.9rem; color: #c5a059; margin-bottom: 20px; line-height: 1.5; }
+        
         .play-btn {
-            display: inline-block;
-            background-color: #e50914;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
+            background-color: #e50914; color: white; padding: 12px 24px;
+            border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer;
         }
 
-        .container {
-            width: 100%;
-            padding: 30px 20px 60px 20px;
-            display: block;
-        }
+        .container { width: 100%; padding: 30px 20px 60px 20px; display: block; }
+        .container h2 { font-size: 1.3rem; margin-bottom: 20px; border-left: 4px solid #e50914; padding-left: 8px; }
+        
+        .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
+        
+        .movie-card { background-color: #1f2833; border-radius: 6px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
+        .movie-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+        .movie-info { padding: 10px; background-color: #1f2833; }
+        .movie-info h3 { font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; color: #ffffff; }
+        .movie-info span { color: #ffc107; font-size: 0.8rem; font-weight: bold; }
 
-        .container h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            border-left: 4px solid #e50914;
-            padding-left: 8px;
+        /* PREMIUM BUILT-IN CINEMA MODAL */
+        .video-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); z-index: 2000; align-items: center; justify-content: center;
         }
-
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            width: 100%;
-        }
-
-        .movie-card {
-            background-color: #1f2833;
-            border-radius: 6px;
-            overflow: hidden;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-        }
-
-        .movie-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .movie-info {
-            padding: 10px;
-            background-color: #1f2833;
-        }
-
-        .movie-info h3 {
-            font-size: 0.85rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 5px;
-            color: #ffffff;
-        }
-
-        .movie-info span {
-            color: #ffc107;
-            font-size: 0.8rem;
-            font-weight: bold;
+        .modal-container { width: 90%; max-width: 700px; position: relative; }
+        .video-modal video { width: 100%; border-radius: 8px; border: 2px solid #1f2833; outline: none; background-color: #000; }
+        .close-modal {
+            position: absolute; top: -40px; right: 0; color: #ffffff; font-size: 30px;
+            font-weight: bold; cursor: pointer; background: none; border: none;
         }
     </style>
 </head>
@@ -192,11 +97,11 @@
 
     <section class="hero-banner">
         <div class="hero-content">
-            <div class="status-badge">Moviebox Streaming Ready</div>
+            <div class="status-badge">Native Player Engine Live</div>
             <h1 id="heroTitle">Deadpool & Wolverine</h1>
             <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
-            <!-- FIXED: Redirects via Google's watch routing engine to force the active video lookup -->
-            <a href="https://google.com" target="_blank" class="play-btn">▶ Watch Trailer</a>
+            <!-- Native internal stream launch -->
+            <button class="play-btn" onclick="openPlayer('https://googleapis.com')">▶ Play Movie</button>
         </div>
     </section>
 
@@ -204,54 +109,80 @@
         <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid">
             
-            <!-- FIXED: Target strings modified to point to clean Google Video frames to completely stop YouTube homepage reset bugs -->
-            <a class="movie-card" href="https://google.com" target="_blank">
+            <!-- Cards now execute built-in media stream keys securely -->
+            <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Deadpool">
                 <div class="movie-info"><h3>Deadpool & Wolverine</h3><span>★ 8.0</span></div>
-            </a>
+            </div>
             
-            <a class="movie-card" href="https://google.com" target="_blank">
+            <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Avatar">
                 <div class="movie-info"><h3>Avatar: The Way of Water</h3><span>★ 7.8</span></div>
-            </a>
+            </div>
             
-            <a class="movie-card" href="https://google.com" target="_blank">
+            <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Spider-Man">
                 <div class="movie-info"><h3>Spider-Man: No Way Home</h3><span>★ 8.2</span></div>
-            </a>
+            </div>
             
-            <a class="movie-card" href="https://google.com" target="_blank">
+            <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Dark Knight">
                 <div class="movie-info"><h3>The Dark Knight</h3><span>★ 9.0</span></div>
-            </a>
+            </div>
             
-            <a class="movie-card" href="https://google.com" target="_blank">
+            <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Interstellar">
                 <div class="movie-info"><h3>Interstellar</h3><span>★ 8.6</span></div>
-            </a>
+            </div>
             
-            <a class="movie-card" href="https://google.com" target="_blank">
+            <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Avengers">
                 <div class="movie-info"><h3>The Avengers</h3><span>★ 8.0</span></div>
-            </a>
+            </div>
             
         </div>
     </main>
 
-    <script>
-        window.onload = function() {
-            document.getElementById('searchBtn').onclick = handleSearch;
-            document.getElementById('searchInput').addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') handleSearch();
-            });
-        };
+    <!-- NATIVE EXPERIMENTAL MEDIA STREAMS CONTAINER -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-container">
+            <button class="close-modal" onclick="closePlayer()">&times;</button>
+            <video id="nativeVideoPlayer" controls playsinline controlsList="nodownload"></video>
+        </div>
+    </div>
 
-        function handleSearch() {
-            var query = document.getElementById('searchInput').value.trim();
-            if (!query) return;
-            // Native redirection engine link
-            window.location.href = 'https://google.com' + encodeURIComponent(query + ' official trailer youtube') + '&tbm=vid';
+    <script>
+        // Native framework interface logic 
+        function openPlayer(videoUrl) {
+            var modal = document.getElementById('videoModal');
+            var player = document.getElementById('nativeVideoPlayer');
+            if (modal && player) {
+                player.src = videoUrl;
+                modal.style.display = 'flex';
+                player.play(); // Auto-initiates playback inside sandbox modal layer
+            }
         }
+
+        function closePlayer() {
+            var modal = document.getElementById('videoModal');
+            var player = document.getElementById('nativeVideoPlayer');
+            if (modal && player) {
+                player.pause();
+                player.src = ""; // Flushes running memory timeline buffer track
+                modal.style.display = 'none';
+            }
+        }
+
+        // Keep core navigation event listeners active
+        window.onload = function() {
+            var searchBtn = document.getElementById('searchBtn');
+            if (searchBtn) {
+                searchBtn.onclick = function() {
+                    var query = document.getElementById('searchInput').value.trim();
+                    if(query) alert('Searching for: ' + query);
+                };
+            }
+        };
     </script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moviebox Clone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="navbar">
+        <div class="logo">MOVIE<span>BOX</span></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for movies or TV shows...">
+            <button onclick="searchMovies()">Search</button>
+        </div>
+    </header>
+
+    <!-- Main Feature Hero Banner -->
+    <section class="hero-banner" id="heroBanner">
+        <div class="hero-content">
+            <h1 id="heroTitle">Featured Movie</h1>
+            <p id="heroOverview">Loading details...</p>
+            <button class="play-btn">▶ Watch Trailer</button>
+        </div>
+    </section>
+
+    <!-- Movie Grid Container -->
+    <main class="container">
+        <h2>Trending Now</h2>
+        <div class="movie-grid" id="movieGrid">
+            <!-- Dynamic movie cards will load here via JavaScript -->
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

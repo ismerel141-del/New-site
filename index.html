@@ -143,10 +143,9 @@
     <section class="hero-banner">
         <div class="hero-content">
             <div class="status-badge">Media Core System Complete</div>
-            <h1 id="heroTitle">My Custom Video</h1>
-            <p id="heroOverview">Streaming directly from unblocked open-source cloud servers with native player acceleration.</p>
-            
-            <!-- FIXED: Main Hero button wired with your real Filebin link -->
+            <h1 id="heroTitle">Deadpool & Wolverine</h1>
+            <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
+            <!-- FIXED: Main Banner button updated with your direct Filebin link -->
             <button class="play-btn" onclick="openPlayer('https://filebin.net')">▶ Play Movie</button>
         </div>
     </section>
@@ -155,10 +154,10 @@
         <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid">
 
-            <!-- Movie Card 1: Wired with your real Filebin link -->
+            <!-- Movie Card 1: Updated with your direct Filebin link -->
             <div class="movie-card" onclick="openPlayer('https://filebin.net')">
                 <img src="https://tmdb.org" alt="Deadpool">
-                <div class="movie-info"><h3>My Video Clip</h3><span>★ 8.5</span></div>
+                <div class="movie-info"><h3>Deadpool & Wolverine</h3><span>★ 8.0</span></div>
             </div>
             
             <!-- Movie Card 2 -->
@@ -209,7 +208,7 @@
             if (searchBtn) {
                 searchBtn.onclick = function() {
                     var query = document.getElementById('searchInput').value.trim();
-                    if(query) alert('Searching sandbox folder for: ' + query);
+                    if(query) alert('Searching folder for: ' + query);
                 };
             }
 
@@ -220,5 +219,3 @@
             slider.oninput = function() {
                 player.volume = slider.value;
                 if (player.volume == 0) {
-                    muteBtn.innerText = "🔇";
-                } else {

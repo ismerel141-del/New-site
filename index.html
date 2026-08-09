@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Moviebox Pro - Playable Edition</title>
+    <title>Moviebox Pro - Premium Player Edition</title>
     <style>
         html, body {
             margin: 0;
@@ -38,7 +38,7 @@
         .search-bar { display: flex; width: 55%; max-width: 300px; }
         .search-bar input {
             flex: 1; padding: 8px 12px; background-color: #1f2833;
-            border: 1px solid #45a29e; border-radius: 4px 0 0 4px; color: #fff; outline: none; font-size: 14px;
+            border: 1px solid #e50914; border-radius: 4px 0 0 4px; color: #fff; outline: none; font-size: 14px;
         }
         .search-bar button {
             padding: 8px 12px; background-color: #e50914; color: #fff;
@@ -59,7 +59,9 @@
         .play-btn {
             background-color: #e50914; color: white; padding: 12px 24px;
             border: none; border-radius: 4px; font-size: 15px; font-weight: bold; cursor: pointer;
+            transition: background 0.2s;
         }
+        .play-btn:hover { background-color: #b20610; }
 
         .container { width: 100%; padding: 30px 20px 60px 20px; display: block; }
         .container h2 { font-size: 1.3rem; margin-bottom: 20px; border-left: 4px solid #e50914; padding-left: 8px; }
@@ -72,17 +74,28 @@
         .movie-info h3 { font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; color: #ffffff; }
         .movie-info span { color: #ffc107; font-size: 0.8rem; font-weight: bold; }
 
-        /* PREMIUM BUILT-IN CINEMA MODAL */
+        /* PREMIUM BUILT-IN CINEMA MODAL WITH STREAMING RED STYLING */
         .video-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.95); z-index: 2000; align-items: center; justify-content: center;
         }
-        .modal-container { width: 90%; max-width: 700px; position: relative; }
-        .video-modal video { width: 100%; border-radius: 8px; border: 2px solid #1f2833; outline: none; background-color: #000; }
-        .close-modal {
-            position: absolute; top: -40px; right: 0; color: #ffffff; font-size: 30px;
-            font-weight: bold; cursor: pointer; background: none; border: none;
+        .modal-container { width: 95%; max-width: 750px; position: relative; }
+        
+        /* Premium custom accents for HTML5 Android video player elements */
+        .video-modal video { 
+            width: 100%; border-radius: 8px; border: 2px solid #e50914; 
+            outline: none; background-color: #000; box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
         }
+        
+        /* Targets modern mobile interfaces to tint sliders and progress tracks streaming red */
+        video::-webkit-media-controls-timeline { background-color: rgba(229, 9, 20, 0.2); border-radius: 4px; }
+        video::-webkit-media-controls-volume-slider { background-color: rgba(229, 9, 20, 0.2); }
+        
+        .close-modal {
+            position: absolute; top: -45px; right: 0; color: #ffffff; font-size: 36px;
+            font-weight: bold; cursor: pointer; background: none; border: none; transition: color 0.2s;
+        }
+        .close-modal:hover { color: #e50914; }
     </style>
 </head>
 <body>
@@ -97,10 +110,11 @@
 
     <section class="hero-banner">
         <div class="hero-content">
-            <div class="status-badge">Native Player Engine Live</div>
+            <div class="status-badge">Premium Native Engine Active</div>
             <h1 id="heroTitle">Deadpool & Wolverine</h1>
             <p id="heroOverview">A listless Wade Wilson toils in civilian life. His efforts to leave his superhero days behind him are interrupted when the Time Variance Authority recruits him for a critical mission.</p>
-            <!-- Native internal stream launch -->
+            
+            <!-- FEATURED HERO VIDEO LINK: Paste your main movie video link (.mp4) inside the quotes below -->
             <button class="play-btn" onclick="openPlayer('https://googleapis.com')">▶ Play Movie</button>
         </div>
     </section>
@@ -109,32 +123,43 @@
         <h2 id="sectionTitle">Trending Blockbusters</h2>
         <div class="movie-grid" id="movieGrid">
             
-            <!-- Cards now execute built-in media stream keys securely -->
+            <!-- 
+              HOW TO ADD YOUR OWN VIDEOS:
+              In each movie card below, look for the 'openPlayer' action.
+              Simply delete the sample link inside the single quotes and paste your custom (.mp4) video URL there!
+            -->
+
+            <!-- Movie Card 1 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Deadpool">
                 <div class="movie-info"><h3>Deadpool & Wolverine</h3><span>★ 8.0</span></div>
             </div>
             
+            <!-- Movie Card 2 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Avatar">
                 <div class="movie-info"><h3>Avatar: The Way of Water</h3><span>★ 7.8</span></div>
             </div>
             
+            <!-- Movie Card 3 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Spider-Man">
                 <div class="movie-info"><h3>Spider-Man: No Way Home</h3><span>★ 8.2</span></div>
             </div>
             
+            <!-- Movie Card 4 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Dark Knight">
                 <div class="movie-info"><h3>The Dark Knight</h3><span>★ 9.0</span></div>
             </div>
             
+            <!-- Movie Card 5 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Interstellar">
                 <div class="movie-info"><h3>Interstellar</h3><span>★ 8.6</span></div>
             </div>
             
+            <!-- Movie Card 6 -->
             <div class="movie-card" onclick="openPlayer('https://googleapis.com')">
                 <img src="https://tmdb.org" alt="Avengers">
                 <div class="movie-info"><h3>The Avengers</h3><span>★ 8.0</span></div>
@@ -152,14 +177,13 @@
     </div>
 
     <script>
-        // Native framework interface logic 
         function openPlayer(videoUrl) {
             var modal = document.getElementById('videoModal');
             var player = document.getElementById('nativeVideoPlayer');
             if (modal && player) {
                 player.src = videoUrl;
                 modal.style.display = 'flex';
-                player.play(); // Auto-initiates playback inside sandbox modal layer
+                player.play(); 
             }
         }
 
@@ -168,21 +192,11 @@
             var player = document.getElementById('nativeVideoPlayer');
             if (modal && player) {
                 player.pause();
-                player.src = ""; // Flushes running memory timeline buffer track
+                player.src = ""; 
                 modal.style.display = 'none';
             }
         }
 
-        // Keep core navigation event listeners active
         window.onload = function() {
             var searchBtn = document.getElementById('searchBtn');
             if (searchBtn) {
-                searchBtn.onclick = function() {
-                    var query = document.getElementById('searchInput').value.trim();
-                    if(query) alert('Searching for: ' + query);
-                };
-            }
-        };
-    </script>
-</body>
-</html>

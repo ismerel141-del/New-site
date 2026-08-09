@@ -1,208 +1,141 @@
-/* Resets and Core Layout Framework */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+const API_KEY = 'a83a16584e228d5eaaa7f34ada3c3566'; 
+const BASE_URL = 'https://themoviedb.org';
+const IMG_URL = 'https://tmdb.org';
+
+window.onload = () => {
+    getTrendingMovies();
+    setupEventListeners();
+};
+
+function setupEventListeners() {
+    document.getElementById('searchBtn').onclick = handleSearch;
+    document.getElementById('closeModalBtn').onclick = closeVideo;
+    
+    document.getElementById('searchInput').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') handleSearch();
+    });
 }
 
-body {
-    background-color: #0b0c10;
-    color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 70px;
+function getTrendingMovies() {
+    fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                setupHeroBanner(data.results[0]); // Targets first item for cinematic showcase
+                displayMovies(data.results);
+            }
+        })
+        .catch(err => console.error('Fetch Error:', err));
 }
 
-/* Floating Navigation Header Placement */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%;
-    background-color: #0b0c10;
-    border-bottom: 1px solid #1f2833;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+function handleSearch() {
+    const query = document.getElementById('searchInput').value.trim();
+    if (!query) return;
+
+    document.getElementById('sectionTitle').innerText = `Search Results for "${query}"`;
+
+    fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.results) {
+                displayMovies(data.results);
+            }
+        })
+        .catch(err => console.error('Search error:', err));
 }
 
-.logo {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
+function setupHeroBanner(movie) {
+    const banner = document.getElementById('heroBanner');
+    if (!banner || !movie) return;
+
+    banner.style.backgroundImage = `url('https://tmdb.org{movie.backdrop_path}')`;
+    document.getElementById('heroTitle').innerText = movie.title;
+    document.getElementById('heroOverview').innerText = movie.overview ? movie.overview.substring(0, 140) + '...' : '';
+    
+    document.getElementById('heroPlayBtn').onclick = () => playMovieTrailer(movie.id);
 }
 
-.logo span {
-    color: #e50914;
+function displayMovies(movies) {
+    const grid = document.getElementById('movieGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    if (movies.length === 0) {
+        grid.innerHTML = `<p style="padding: 20px; color: #888;">No results found.</p>`;
+        return;
+    }
+
+    movies.forEach(movie => {
+        if (!movie.poster_path) return; 
+        
+        const card = document.createElement('div');
+        card.classList.add('movie-card');
+        card.onclick = () => playMovieTrailer(movie.id);
+
+        card.innerHTML = `
+            <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}" loading="lazy">
+            <div class="movie-info">
+                <h3>${movie.title}</h3>
+                <span style="color: #ffc107; font-size: 0.85rem;">★ ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
 }
 
-.search-bar {
-    display: flex;
-    width: 50%;
-    max-width: 400px;
+// UPGRADED MOBILE STREAMING ENGINE
+function playMovieTrailer(movieId) {
+    fetch(`${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`)
+        .then(res => res.json())
+        .then(data => {
+            // Priority 1: Look for an Official Trailer
+            let video = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+            
+            // Priority 2: Fallback to Teasers or Featurettes if trailer is missing
+            if (!video) {
+                video = data.results.find(v => v.site === 'YouTube');
+            }
+            
+            if (video) {
+                const player = document.getElementById('videoPlayer');
+                const modal = document.getElementById('videoModal');
+                
+                // Construct standard embed link
+                const embedUrl = `https://youtube.com{video.key}?autoplay=1&rel=0&modestbranding=1`;
+                
+                // Attempt to open the inline video modal overlay
+                player.src = embedUrl;
+                modal.style.display = 'flex';
+                
+                // Safety net: If mobile browser aggressively restricts video iframe loading,
+                // give the user a direct link so they aren't stuck on a blank screen
+                setTimeout(() => {
+                    try {
+                        if (player.contentWindow.length === 0) {
+                             throw new Error("Blocked by browser policy");
+                        }
+                    } catch(e) {
+                         // Opens seamlessly directly into the YouTube mobile application
+                         window.open(`https://youtube.com{video.key}`, '_blank');
+                         closeVideo();
+                    }
+                }, 800);
+
+            } else {
+                // Absolute fallback: Search YouTube via title if TMDB has no video key linked
+                alert("Trailer asset not found. Searching external video servers...");
+                window.open(`https://youtube.com{movieId}+official+trailer`, '_blank');
+            }
+        })
+        .catch(err => {
+            console.error('Trailer error:', err);
+            alert("Streaming network busy. Retrying stream initialization...");
+        });
 }
 
-.search-bar input {
-    flex: 1;
-    padding: 10px 15px;
-    background-color: #1f2833;
-    border: 1px solid #45a29e;
-    border-radius: 4px 0 0 4px;
-    color: #fff;
-    outline: none;
-}
-
-.search-bar button {
-    padding: 10px 20px;
-    background-color: #e50914;
-    color: #fff;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* Big Hero Banner Showcase Layout */
-.hero-banner {
-    height: 55vh;
-    background-size: cover;
-    background-position: center top;
-    display: flex;
-    align-items: flex-end;
-    padding: 40px 5%;
-    position: relative;
-}
-
-.hero-banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, #0b0c10 10%, transparent 90%);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 600px;
-}
-
-.hero-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-}
-
-.hero-content p {
-    font-size: 1rem;
-    color: #c5a059;
-    margin-bottom: 20px;
-    line-height: 1.4;
-}
-
-.play-btn {
-    background-color: #e50914;
-    color: white;
-    padding: 12px 28px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.play-btn:hover {
-    transform: scale(1.05);
-}
-
-/* Movie Cards Grid */
-.container {
-    padding: 30px 5%;
-}
-
-.container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    border-left: 4px solid #e50914;
-    padding-left: 10px;
-}
-
-.movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 20px;
-}
-
-/* Individual Movie Posters Display Card */
-.movie-card {
-    background-color: #1f2833;
-    border-radius: 6px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease;
-}
-
-.movie-card:hover {
-    transform: translateY(-5px);
-}
-
-.movie-card img {
-    width: 100%;
-    height: 210px;
-    object-fit: cover;
-    display: block;
-}
-
-.movie-info {
-    padding: 10px;
-}
-
-.movie-info h3 {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Video Player Overlays */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal-content {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    aspect-ratio: 16/9;
-}
-
-.modal-content iframe {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-}
-
-.close-btn {
-    position: absolute;
-    top: -45px;
-    right: 0;
-    color: #fff;
-    font-size: 36px;
-    cursor: pointer;
+function closeVideo() {
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoPlayer');
+    if(modal) modal.style.display = 'none';
+    if(player) player.src = ''; 
 }

@@ -8,31 +8,39 @@
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Top Navigation Header -->
     <header class="navbar">
         <div class="logo">MOVIE<span>BOX</span></div>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search for movies or TV shows...">
-            <button onclick="searchMovies()">Search</button>
+            <input type="text" id="searchInput" placeholder="Search for movies...">
+            <button id="searchBtn">Search</button>
         </div>
     </header>
 
-    <!-- Main Feature Hero Banner -->
+    <!-- Main Feature Cinematic Hero Banner -->
     <section class="hero-banner" id="heroBanner">
         <div class="hero-content">
-            <h1 id="heroTitle">Featured Movie</h1>
-            <p id="heroOverview">Loading details...</p>
-            <button class="play-btn">▶ Watch Trailer</button>
+            <h1 id="heroTitle">Loading Featured Content...</h1>
+            <p id="heroOverview"></p>
+            <button class="play-btn" id="heroPlayBtn">▶ Watch Trailer</button>
         </div>
     </section>
 
-    <!-- Movie Grid Container -->
+    <!-- Dynamic Movie Cards Showcase Grid -->
     <main class="container">
-        <h2>Trending Now</h2>
+        <h2 id="sectionTitle">Trending Now</h2>
         <div class="movie-grid" id="movieGrid">
-            <!-- Dynamic movie cards will load here via JavaScript -->
+            <!-- Dynamic movie cards will inject here via javascript -->
         </div>
     </main>
+
+    <!-- Embedded Video Streaming Overlay -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

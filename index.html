@@ -73,16 +73,32 @@
         }
 
         function getTrendingMovies() {
-            fetch(BASE_URL + '/trending/movie/week?api_key=' + API_KEY)
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                    if (data && data.results && data.results.length > 0) {
-                        setupHeroBanner(data.results[0]); 
-                        displayMovies(data.results);
-                    }
-                })
-                .catch(function(err) { console.error(err); });
-        }
+    var statusText = document.getElementById('heroOverview');
+    
+    fetch(BASE_URL + '/trending/movie/week?api_key=' + API_KEY)
+        .then(function(res) { 
+            if (!res.ok) {
+                if (statusText) statusText.innerText = "Network Error Code: " + res.status;
+            }
+            return res.json(); 
+        })
+        .then(function(data) {
+            if (data && data.results && data.results.length > 0) {
+                setupHeroBanner(data.results[0]); 
+                displayMovies(data.results);
+            } else {
+                if (statusText) statusText.innerText = "Server replied, but gave 0 movies.";
+            }
+        })
+        .catch(function(err) { 
+            console.error(err); 
+            if (statusText) {
+                statusText.style.color = "#ff4d4d";
+                statusText.innerHTML = "<strong>📡 CONNECTION BLOCKED:</strong> Your browser or network provider is blocking the connection to the movie database servers. Try switching to a different network/Wi-Fi or use a VPN.";
+            }
+        });
+}
+
 
         function handleSearch() {
             var query = document.getElementById('searchInput').value.trim();

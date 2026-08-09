@@ -9,7 +9,6 @@ window.onload = () => {
 
 function setupEventListeners() {
     document.getElementById('searchBtn').onclick = handleSearch;
-    document.getElementById('closeModalBtn').onclick = closeVideo;
     
     document.getElementById('searchInput').addEventListener('keyup', (e) => {
         if (e.key === 'Enter') handleSearch();
@@ -21,7 +20,7 @@ function getTrendingMovies() {
         .then(res => res.json())
         .then(data => {
             if (data.results && data.results.length > 0) {
-                setupHeroBanner(data.results[0]); // Targets first item for cinematic showcase
+                setupHeroBanner(data.results[0]); // Fix: target first movie item for banner
                 displayMovies(data.results);
             }
         })
@@ -52,7 +51,8 @@ function setupHeroBanner(movie) {
     document.getElementById('heroTitle').innerText = movie.title;
     document.getElementById('heroOverview').innerText = movie.overview ? movie.overview.substring(0, 140) + '...' : '';
     
-    document.getElementById('heroPlayBtn').onclick = () => playMovieTrailer(movie.id);
+    // Bind Android-proof link to Hero action button
+    document.getElementById('heroPlayBtn').onclick = () => playMovieTrailer(movie.id, movie.title);
 }
 
 function displayMovies(movies) {
@@ -70,7 +70,9 @@ function displayMovies(movies) {
         
         const card = document.createElement('div');
         card.classList.add('movie-card');
-        card.onclick = () => playMovieTrailer(movie.id);
+        
+        // Pass title as a backup search term
+        card.onclick = () => playMovieTrailer(movie.id, movie.title);
 
         card.innerHTML = `
             <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}" loading="lazy">
@@ -83,59 +85,27 @@ function displayMovies(movies) {
     });
 }
 
-// UPGRADED MOBILE STREAMING ENGINE
-function playMovieTrailer(movieId) {
+// ANDROID DIRECT-APP ROUTING LAUNCHER
+function playMovieTrailer(movieId, movieTitle) {
     fetch(`${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`)
         .then(res => res.json())
         .then(data => {
-            // Priority 1: Look for an Official Trailer
-            let video = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+            // Locate video components
+            const video = data.results.find(v => v.site === 'YouTube');
             
-            // Priority 2: Fallback to Teasers or Featurettes if trailer is missing
-            if (!video) {
-                video = data.results.find(v => v.site === 'YouTube');
-            }
-            
-            if (video) {
-                const player = document.getElementById('videoPlayer');
-                const modal = document.getElementById('videoModal');
-                
-                // Construct standard embed link
-                const embedUrl = `https://youtube.com{video.key}?autoplay=1&rel=0&modestbranding=1`;
-                
-                // Attempt to open the inline video modal overlay
-                player.src = embedUrl;
-                modal.style.display = 'flex';
-                
-                // Safety net: If mobile browser aggressively restricts video iframe loading,
-                // give the user a direct link so they aren't stuck on a blank screen
-                setTimeout(() => {
-                    try {
-                        if (player.contentWindow.length === 0) {
-                             throw new Error("Blocked by browser policy");
-                        }
-                    } catch(e) {
-                         // Opens seamlessly directly into the YouTube mobile application
-                         window.open(`https://youtube.com{video.key}`, '_blank');
-                         closeVideo();
-                    }
-                }, 800);
-
+            if (video && video.key) {
+                // Instantly opens deep link to launch Android's native YouTube app player
+                window.open(`https://youtube.com{video.key}`, '_blank');
             } else {
-                // Absolute fallback: Search YouTube via title if TMDB has no video key linked
-                alert("Trailer asset not found. Searching external video servers...");
-                window.open(`https://youtube.com{movieId}+official+trailer`, '_blank');
+                // Absolute fallback: executes title query keyword optimization search if key doesn't load
+                const searchQuery = encodeURIComponent(`${movieTitle} official trailer`);
+                window.open(`https://youtube.com{searchQuery}`, '_blank');
             }
         })
         .catch(err => {
             console.error('Trailer error:', err);
-            alert("Streaming network busy. Retrying stream initialization...");
+            // General query fallback link if API completely fails on mobile
+            const searchQuery = encodeURIComponent(`${movieTitle} official trailer`);
+            window.open(`https://youtube.com{searchQuery}`, '_blank');
         });
-}
-
-function closeVideo() {
-    const modal = document.getElementById('videoModal');
-    const player = document.getElementById('videoPlayer');
-    if(modal) modal.style.display = 'none';
-    if(player) player.src = ''; 
 }

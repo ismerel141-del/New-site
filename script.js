@@ -1,30 +1,42 @@
-const API_KEY = 'a83a16584e228d5eaaa7f34ada3c3566''; 
-const BASE_URL = 'https://themoviedb.org';
+const API_KEY ='a83a16584e228d5eaaa7f34ada3c3566'; 
+const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://tmdb.org';
 
-// Download trending data when the page opens
 window.onload = () => {
     getTrendingMovies();
 };
 
 function getTrendingMovies() {
     fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`)
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('API request failed');
+            }
+            return res.json();
+        })
         .then(data => {
-            setupHeroBanner(data.results[0]);
-            displayMovies(data.results);
+            if (data.results && data.results.length > 0) {
+                setupHeroBanner(data.results[0]); 
+                displayMovies(data.results);
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
         });
 }
 
 function setupHeroBanner(movie) {
     const banner = document.getElementById('heroBanner');
-    banner.style.backgroundImage = `linear-gradient(to top, #0b0c10, transparent), url('https://tmdb.org{movie.backdrop_path}')`;
-    document.getElementById('heroTitle').innerText = movie.title;
-    document.getElementById('heroOverview').innerText = movie.overview.substring(0, 150) + '...';
+    if (banner && movie) {
+        banner.style.backgroundImage = `linear-gradient(to top, #0b0c10, transparent), url('https://tmdb.org{movie.backdrop_path}')`;
+        document.getElementById('heroTitle').innerText = movie.title;
+        document.getElementById('heroOverview').innerText = movie.overview.substring(0, 150) + '...';
+    }
 }
 
 function displayMovies(movies) {
     const grid = document.getElementById('movieGrid');
+    if (!grid) return;
     grid.innerHTML = '';
 
     movies.forEach(movie => {
